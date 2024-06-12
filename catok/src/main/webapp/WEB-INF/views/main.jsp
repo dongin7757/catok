@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>챗부트메인</title>
+<title>메인페이지</title>
 </head>
 <body>
-메인페이지!!!!
-2024-05-31 새로운 브랜치로 푸쉬할게요
+	메인이에용
 </body>
 </html>
