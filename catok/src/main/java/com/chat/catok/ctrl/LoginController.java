@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,9 @@ public class LoginController {
 	
 	@Autowired
 	private IUserInfoService service;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@GetMapping(value="/")
 	public String home() {
@@ -45,5 +49,27 @@ public class LoginController {
 		UserInfoVo user = service.login(id);
 		log.info("###user : " + user);
 		return "main";
+	}
+	
+	@GetMapping(value = "/signUp.do")
+	public String signUp() {
+		log.info("회원가입 창 이동.");
+		return "login/signUp";
+	}
+	
+	@PostMapping(value = "/signUp.do")
+	public String signUp(UserInfoVo infoVo){
+		log.info("입력받은 정보 : {}", infoVo);
+		log.info("암호화 전 비번 : {}", infoVo.getUser_password());
+		String encodepwd = passwordEncoder.encode(infoVo.getUser_password());
+		log.info("암호화 후 비번 : {}", encodepwd);
+		infoVo.setUser_password(encodepwd);
+		try {
+			int n = service.insertUserInfo(infoVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/loginForm.do";
+		
 	}
 }

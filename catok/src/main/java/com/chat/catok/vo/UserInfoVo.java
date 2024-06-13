@@ -19,5 +19,6 @@ public class UserInfoVo {
 	private String user_name;
 	private String user_email;
 	private String user_prmsg;
-	private String regdate;
+	private String user_regdate;
+	private String user_auth;
 }
