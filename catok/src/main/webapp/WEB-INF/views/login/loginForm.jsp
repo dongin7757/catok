@@ -40,7 +40,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="button" class="btn btn-default">회원가입</button>
+					<button type="button" class="btn btn-default" onclick="location.href='./signUp.do'">회원가입</button>
 					<button type="submit" class="btn btn-default">로그인</button>
 				</div>
 			</div>

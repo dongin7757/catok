@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import jakarta.servlet.DispatcherType;
@@ -15,6 +16,7 @@ import jakarta.servlet.DispatcherType;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SpringSecurityConfig {
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
@@ -22,7 +24,9 @@ public class SpringSecurityConfig {
 		.cors(Customizer.withDefaults())
 		.authorizeHttpRequests(request -> request
 		.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-		.requestMatchers("/images/**").permitAll()
+		.requestMatchers("/images/**", "/signUp.do").permitAll()
+		.requestMatchers("/admin.do").hasRole("ADMIN")
+		.requestMatchers("/user.do").hasRole("USER")
 		.anyRequest().authenticated()
 		)
 		.formLogin(login -> login
@@ -41,5 +45,10 @@ public class SpringSecurityConfig {
 		)
 		;
 		return http.build();
+	}
+	
+	@Bean
+	public PasswordEncoder loginPasswordEncoder(){
+		return new NoPasswordEncoder();
 	}
 }
