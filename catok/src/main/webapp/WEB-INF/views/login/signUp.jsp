@@ -16,7 +16,7 @@
 
 	<div class="container">
 		<h2>캐톡 회원가입</h2>
-		<form action="/">
+		<form action="/signUp.do" method="post">
 			<div class="form-group">
 				<label for="user_id">ID:</label> 
 				<input type="text" class="form-control" id="user_id" placeholder="아이디를 입력하세요." name="user_id">

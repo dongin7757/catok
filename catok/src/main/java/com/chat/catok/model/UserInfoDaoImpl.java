@@ -26,7 +26,7 @@ public class UserInfoDaoImpl implements IUserInfoDao {
 
 	@Override
 	public int insertUserInfo(UserInfoVo vo) {
-		return 0;
+		return sqlSession.insert(NS + "insertUserInfo", vo);
 	}
 
 	@Override
