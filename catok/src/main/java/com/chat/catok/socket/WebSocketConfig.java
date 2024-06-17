@@ -17,6 +17,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/catok").setAllowedOrigins("*"); //ws://127.0.0.1:포트/catok, setAllowedOrigins는 허용 도메인 지정
+        registry.addHandler(webSocketHandler, "/ws/catok").setAllowedOrigins("*"); //ws://127.0.0.1:포트/ws/catok, setAllowedOrigins는 허용 도메인 지정
     }
 }
