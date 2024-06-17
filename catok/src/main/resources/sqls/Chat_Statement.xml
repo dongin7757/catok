@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chat.catok.model.ChatDaoImpl">
+
+	<select id="createNewChatRoom">
+		INSERT INTO CHATROOM
+		(CHAT_ID, CHATROOM_REGDATE, ROOM_TYPE)
+		VALUES(CHATROOM_SEQUENCE.NEXTVAL, CURRENT_TIMESTAMP, '1');
+	</select>
+</mapper>
