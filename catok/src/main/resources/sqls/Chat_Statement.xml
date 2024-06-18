@@ -2,9 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chat.catok.model.ChatDaoImpl">
 
-	<select id="createNewChatRoom">
-		INSERT INTO CHATROOM
-		(CHAT_ID, CHATROOM_REGDATE, ROOM_TYPE)
-		VALUES(CHATROOM_SEQUENCE.NEXTVAL, CURRENT_TIMESTAMP, '1');
+	
+	<!-- 1대1 채팅방 생성 -->
+	<insert id="createNewChatRoom">
+		INSERT INTO KKATOK.CHATROOM
+		(CHAT_ID, ROOM_TYPE)
+		VALUES(KKATOK.CHATROOM_SEQUENCE.NEXTVAL, '1')
+	</insert>
+	
+	<!-- 채팅방 인원 추가 -->
+	<insert id="createChatRoomInfo" parameterType="java.lang.String">
+	<selectKey keyProperty="no" resultType="String" order="BEFORE">
+        SELECT KKATOK.CHAT_ID FROM KKATOK.CHATROOM
+    </selectKey>
+		INSERT INTO	KKATOK.CHATROOMPARTICIPATE 
+		(CHAT_ID, USER_ID)
+		VALUES(#{no}, #{user_id})
+	</insert>
+	
+	<!-- 내가 해당 채팅방의 인원인지 확인 -->
+	<select id="getChatRoomChatId" parameterType="java.lang.String" resultType="ChatroomParticipateVo">
+		SELECT CHAT_ID
+			KKATOK.CHATROOMPARTICIPATE
+			WHERE crp.user_id = #{user_id}
 	</select>
+	
+		
 </mapper>

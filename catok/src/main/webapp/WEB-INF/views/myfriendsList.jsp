@@ -33,7 +33,7 @@
 						<td>${friend.user_id}</td>
 						<td>${friend.friend_id}</td>
 						<td>${friend.add_regdate}</td>
-						<td><input type="button" value="채팅" onclick="createNewChatRoom('${friend.friend_id}')"></td>
+						<td><input type="button" value="채팅" onclick="createNewChat('${friend.friend_id}')"></td>
 						<td><input type="button" value="친구 삭제"></td>
 					</tr>
 				</c:forEach>
