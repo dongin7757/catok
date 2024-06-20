@@ -4,8 +4,8 @@
 	
 	<select id="getFriendList" parameterType="java.lang.String" resultType="FriendInfoVo">
 		SELECT USER_ID, FRIEND_ID, ADD_REGDATE
-	FROM KKATOK.FRIENDINFO
-	WHERE USER_ID = #{user_id}
+		FROM KKATOK.FRIENDINFO
+		WHERE USER_ID = #{user_id}
 	</select>
 	
 	

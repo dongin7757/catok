@@ -1,12 +1,15 @@
 package com.chat.catok.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import com.chat.catok.vo.ChatInfoVo;
+import com.chat.catok.vo.ChatRoomListVo;
 import com.chat.catok.vo.ChatroomVo;
 
 @Repository
@@ -18,6 +21,18 @@ public class ChatDaoImpl implements IChatDao {
 	
 	private final String NS = "com.chat.catok.model.ChatDaoImpl.";
 	
+	//친구와의 1:1채팅방 조회
+	@Override
+	public String getChatRoomChatId(Map<String, Object> map) {
+		return sqlSession.selectOne(NS+"getChatRoomChatId", map);
+	}
+	
+	//조회후 채팅방 정보 가져오기
+	@Override
+	public List<ChatInfoVo> getChatInfo(String chat_id) {
+		return sqlSession.selectList(NS+"getChatInfo", chat_id);
+	}
+	
 	// 1:1채팅방 생성
 	@Override
 	public int createNewChatRoom() {
@@ -26,14 +41,14 @@ public class ChatDaoImpl implements IChatDao {
 	
 	// 채팅방 인원 추가
 	@Override
-	public int createChatRoomInfo(String user_id) {
-		return sqlSession.insert(NS+"createChatRoomInfo",user_id);
+	public int createChatRoomInfo(List<String> user_ids) {
+		return sqlSession.insert(NS+"createChatRoomInfo",user_ids);
 	}
 
 	//나의 채팅방 리스트 가져오기
 	@Override
-	public List<ChatroomVo> getMyChatRoomList(String user_id) {
-		return sqlSession.selectList(NS+"getMyChatRoomList",user_id);
+	public List<ChatRoomListVo> getMyChatRoomList(String user_id) {
+		return sqlSession.selectList(NS+"getMyChatRoomList", user_id);
 	}
 
 

@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chat.catok.model.ChatDaoImpl">
 
+	<!-- 친구와 내가 속한 1:1 채팅방이 존재하는지 확인 -->
+	<select id="getChatRoomChatId" parameterType="java.util.Map" resultType="java.lang.String">
+	SELECT CHAT_ID 
+		FROM KKATOK.CHATROOMPARTICIPATE 
+		WHERE USER_ID = #{my_id}
+	INTERSECT
+		SELECT CHAT_ID 
+		FROM KKATOK.CHATROOMPARTICIPATE 
+		WHERE USER_ID = #{friend_id}
+	</select>
+	
+	<!-- 채팅방 조회시 존재하면 채팅방 정보 가져오기 -->
+	<select id="getChatInfo" parameterType="java.lang.String" resultType="ChatInfoVo">
+	SELECT USER_ID , CHAT_MESSAGE , TO_CHAR(CHAT_REGDATE, 'YYYY-MM-DD HH24:MI') AS CHAT_REGDATE
+		FROM KKATOK.CHATINFO c
+		WHERE CHAT_ID = #{chat_id}
+		ORDER BY CHAT_REGDATE
+	</select>
 	
 	<!-- 1대1 채팅방 생성 -->
 	<insert id="createNewChatRoom">
@@ -10,22 +28,31 @@
 		VALUES(KKATOK.CHATROOM_SEQUENCE.NEXTVAL, '1')
 	</insert>
 	
-	<!-- 채팅방 인원 추가 -->
-	<insert id="createChatRoomInfo" parameterType="java.lang.String">
-	<selectKey keyProperty="no" resultType="String" order="BEFORE">
-        SELECT KKATOK.CHAT_ID FROM KKATOK.CHATROOM
-    </selectKey>
-		INSERT INTO	KKATOK.CHATROOMPARTICIPATE 
-		(CHAT_ID, USER_ID)
-		VALUES(#{no}, #{user_id})
-	</insert>
 	
-	<!-- 내가 해당 채팅방의 인원인지 확인 -->
-	<select id="getChatRoomChatId" parameterType="java.lang.String" resultType="ChatroomParticipateVo">
-		SELECT CHAT_ID
-			KKATOK.CHATROOMPARTICIPATE
-			WHERE crp.user_id = #{user_id}
+	<!-- 채팅방 생성 후 인원 추가 -->
+	<update id="createChatRoomInfo" parameterType="java.util.List">
+		<foreach collection="list" item="item" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+  			INTO KKATOK.CHATROOMPARTICIPATE (CHAT_ID, USER_ID) VALUES
+			( KKATOK.CHATROOM_SEQUENCE.CURRVAL, #{item} )
+		</foreach>
+  	</update>
+  	
+  	
+  	<!-- 나의 채팅방 리스트 조회 -->
+	<select id="getMyChatRoomList" parameterType="java.lang.String" resultType="ChatRoomListVo">
+		SELECT c.CHAT_ID, C2.USER_ID, c.CHAT_MESSAGE, C.CHAT_REGDATE  
+		FROM KKATOK.CHATINFO c INNER JOIN
+			(SELECT CHAT_ID ,USER_ID 
+				FROM KKATOK.CHATROOMPARTICIPATE c2  
+				WHERE CHAT_ID IN (SELECT CHAT_ID 
+						FROM KKATOK.CHATROOMPARTICIPATE c
+						WHERE USER_ID = #{user_id})
+				AND C2.USER_ID != #{user_id})C2
+			ON c2.CHAT_ID = c.CHAT_ID
+			WHERE ROWNUM = 1
+			ORDER BY CHAT_REGDATE DESC
 	</select>
+	
 	
 		
 </mapper>

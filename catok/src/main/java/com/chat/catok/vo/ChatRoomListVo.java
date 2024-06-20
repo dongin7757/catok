@@ -11,9 +11,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
-public class ChatInfoVo {
+@AllArgsConstructor
+public class ChatRoomListVo {
+
 	private String chat_id;
 	private String user_id;
 	private String chat_message;
