@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chat.catok.model.UserInfoDaoImpl">
+	<!-- 로그인 -->
 	<select id="login" parameterType="java.lang.String" resultType="UserInfoVo">
 		SELECT USER_ID, USER_NAME, USER_EMAIL, USER_REGDATE, USER_PASSWORD, USER_AUTH
 			FROM KKATOK.USERINFO 
 			WHERE USER_ID = #{id}
 	</select>
 	
+	<!-- 회원가입 -->
 	<insert id="insertUserInfo" parameterType="UserInfoVo">
 		INSERT INTO KKATOK.USERINFO (
 			USER_ID, USER_PASSWORD, USER_NAME
@@ -15,4 +17,17 @@
 			#{user_id},#{user_password},#{user_name}
 			,#{user_email},CURRENT_TIMESTAMP) 
 	</insert>
+	
+	<!-- 회원목록 검색 -->
+	<select id="searchUserInfoList" parameterType="java.util.Map" resultType="UserInfoVo">
+		SELECT USER_ID, USER_NAME
+			FROM KKATOK.USERINFO u 
+				WHERE 1=1
+				<if test="user_id != null and user_id != ''">
+					AND USER_ID LIKE '%' || #{user_id} || '%'
+				</if>
+				<if test="user_name != null and user_name != ''">
+					AND USER_NAME LIKE '%' || #{user_name} || '%'
+				</if>
+	</select>
 </mapper>

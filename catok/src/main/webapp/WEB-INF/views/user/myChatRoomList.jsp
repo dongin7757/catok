@@ -20,7 +20,6 @@
 				<th>채팅</th>
 				<th>시간</th>
 			</tr>
-<%-- 			${rooms} --%>
 				<c:forEach items="${rooms}" var="room">
 					<td>${room.user_id}님 과의 채팅</td>
 					<td>${room.chat_message}</td>

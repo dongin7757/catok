@@ -34,7 +34,7 @@ public class ChatController {
 	private IChatService chatService;
 	
 //	친구와 1:1 채팅 방생성 또는 불러오기
-	@PostMapping(value="/chatPopup.do")
+	@PostMapping("/chatPopup.do")
 	public String chatPopup(@RequestBody String friendId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		
 		log.info("###넘어온 friendId : " + friendId);
@@ -64,7 +64,7 @@ public class ChatController {
 	}
 	
 	
-	@GetMapping(value = "/myChatRoomList.do")
+	@GetMapping("/myChatRoomList.do")
 	public String myChatRoomList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		List<ChatRoomListVo> rooms = chatService.getMyChatRoomList(userDetails.getUsername());
 		log.info("####쿼리 실행 후 가져온 리스트 : {}", rooms.toString());

@@ -32,12 +32,12 @@ public class LoginController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	@GetMapping(value="/")
+	@GetMapping("/")
 	public String home() {
 		return "redirect:/loginForm.do";
 	}
 	
-	@GetMapping(value="/loginForm.do")
+	@GetMapping("/loginForm.do")
 	public String loginForm(HttpServletRequest request) {
 		Cookie[] list = request.getCookies();
 		for(Cookie cookie:list) {
@@ -50,13 +50,13 @@ public class LoginController {
 		return "login/loginForm";
 	}
 	
-//	@GetMapping(value="/loginSuccess.do")
+//	@GetMapping("/loginSuccess.do")
 //	public String loginSuccess() {
 //		log.info("###로그인 성공");
 //		return "main";
 //	}
 	
-//	@PostMapping(value="/login.do")
+//	@PostMapping("/login.do")
 //	public String loginForm(HttpServletRequest request, String id) {
 //		log.info("###로그인중!");
 //		id = request.getParameter("id");
@@ -65,13 +65,13 @@ public class LoginController {
 //		return "main";
 //	}
 	
-	@GetMapping(value = "/signUp.do")
+	@GetMapping("/signUp.do")
 	public String signUp() {
 		log.info("회원가입 창 이동.");
 		return "login/signUp";
 	}
 	
-	@PostMapping(value = "/signUp.do")
+	@PostMapping("/signUp.do")
 	public String signUp(UserInfoVo infoVo){
 		log.info("입력받은 정보 : {}", infoVo);
 		log.info("암호화 전 비번 : {}", infoVo.getUser_password());
