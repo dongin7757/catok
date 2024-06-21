@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MainController {
 	
-	@GetMapping(value="/main.do")
+	@GetMapping("/main.do")
 	public String main(@AuthenticationPrincipal UserDetails user, Model model) {
 		log.info("###Principal UserDetail 객체 : {}", user);
 		model.addAttribute("username", user.getUsername());

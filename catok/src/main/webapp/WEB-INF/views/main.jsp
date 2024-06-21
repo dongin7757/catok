@@ -28,6 +28,7 @@
 	<div class="container">
 		<button onclick="location.href='./logout.do'"> 로그아웃 </button>
 		<button onclick="location.href='./myFriendsList.do'"> 내 친구 리스트 </button>
+		<button onclick="location.href='./addFriend.do'"> 친구추가 </button>
 		<button onclick="location.href='./myChatRoomList.do'"> 내 채팅방 리스트 </button>
 	</div>
 	

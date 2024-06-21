@@ -2,13 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chat.catok.model.FriendInfoDaoImpl">
 	
+	<!-- 친구목록 조회 -->
 	<select id="getFriendList" parameterType="java.lang.String" resultType="FriendInfoVo">
 		SELECT USER_ID, FRIEND_ID, ADD_REGDATE
-		FROM KKATOK.FRIENDINFO
-		WHERE USER_ID = #{user_id}
+			FROM KKATOK.FRIENDINFO
+			WHERE USER_ID = #{user_id}
 	</select>
 	
-	
-	
+	<!-- 친구추가 -->
+	<insert id="insertFriend" parameterType="java.util.Map">
+		INSERT INTO KKATOK.FRIENDINFO (
+			USER_ID, FRIEND_ID)
+		VALUES(
+			#{user_id}, #{friend_id})
+	</insert>
 
 </mapper>

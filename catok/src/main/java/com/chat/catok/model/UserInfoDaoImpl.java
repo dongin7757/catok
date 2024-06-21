@@ -19,19 +19,27 @@ public class UserInfoDaoImpl implements IUserInfoDao {
 	
 	private final String NS = "com.chat.catok.model.UserInfoDaoImpl.";
 	
+	// 로그인
 	@Override
 	public UserInfoVo login(String id) {
 		return sqlSession.selectOne(NS + "login", id);
 	}
 
+	// 회원가입
 	@Override
 	public int insertUserInfo(UserInfoVo vo) {
 		return sqlSession.insert(NS + "insertUserInfo", vo);
 	}
 
+	// 전체 회원 조회
 	@Override
 	public List<UserInfoVo> getUserInfoAllList() {
-		return null;
+		return sqlSession.selectList(NS + "getUserInfoAllList");
 	}
-
+	
+	// 회원목록 검색
+	@Override
+	public List<UserInfoVo> searchUserInfoList(Map<String, Object> map) {
+		return sqlSession.selectList(NS + "searchUserInfoList", map);
+	}
 }

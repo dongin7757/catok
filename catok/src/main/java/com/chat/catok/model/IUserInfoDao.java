@@ -19,4 +19,7 @@ public interface IUserInfoDao {
 	// 전체 회원 조회
 	public List<UserInfoVo> getUserInfoAllList();
 	
+	// 회원목록 검색
+	public List<UserInfoVo> searchUserInfoList(Map<String, Object> map);
+	
 }
