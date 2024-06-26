@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +33,13 @@
 				</tr>
 			</thead>
 			<tbody class="friendsList">
-				
+				<c:forEach items="${members}" var="member">
+					<tr>
+						<td>${member.user_id}</td>
+						<td>${member.user_name}</td>
+						<td><button type="button" value="${member.user_id}">추가</button></td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

@@ -34,7 +34,7 @@ function search() {
 				html += ' <tr>';
 				html += '  <td class="friendsList">' + item.user_id + '</td>'; // user_id 값 사용
 				html += '  <td>' + item.user_name + '</td>'; // user_name 값 사용
-				html += '  <td><button type="button">추가</button></td>';
+				html += '  <td><button type="button" value='+ item.user_id +'>추가</button></td>';
 				html += ' </tr>';
 			});
 
