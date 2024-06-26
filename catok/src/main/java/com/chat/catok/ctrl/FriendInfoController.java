@@ -40,19 +40,19 @@ public class FriendInfoController {
 			String user_id = userDetails.getUsername();
 			log.info("현재 사용자의 아이디: {}", user_id);
 			List<FriendInfoVo> friends = iFriendInfoService.getFriendList(user_id);
-
 			model.addAttribute("friends",friends);
 		}
-		
 		return "myfriendsList";
-
 	}
 	
 	// 친구추가 페이지 이동
-	@GetMapping("/addFriend.do")
-	public String addFriend(Model model) {
-		
+	@GetMapping("/moveFriendPg.do")
+	public String moveFriendPg(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		String myId = userDetails.getUsername();
+		log.info("###myId : " + myId);
 		Map<String, Object> map = new HashMap<>();
+		map.put("myId", myId);
+		log.info("###map : " + map);
 		List<UserInfoVo> members = iUserInfoService.searchUserInfoList(map);
 		model.addAttribute("members", members);
 		return "user/addFriend";
@@ -87,4 +87,36 @@ public class FriendInfoController {
 	    }
 	    return searchFriendsList;
 	}
+	
+	// 친구추가
+	@PostMapping("/addFriend.do")
+	@ResponseBody
+	public Map<String, String> addFriend(@RequestBody Map<String,Object> map, @AuthenticationPrincipal UserDetails userDetail) {
+		String user_id = userDetail.getUsername();
+	    String friend_id = (String) map.get("friend_id");
+	    map.put("user_id", user_id);
+	    map.put("friend_id", friend_id);
+		log.info("###user_id : " + user_id);
+		log.info("###friend_id : " + friend_id);
+		int addFriend = iFriendInfoService.insertFriend(map);
+		Map<String, String> response = new HashMap<>();
+	    response.put("friend_id", friend_id);
+	    return response;
+	}
+	
+	// 친구삭제
+	@PostMapping("/deleteFriend.do")
+	@ResponseBody
+	public Map<String, String> deleteFriend(@RequestBody Map<String,Object> map, @AuthenticationPrincipal UserDetails userDetail) {
+		String user_id = userDetail.getUsername();
+	    String friend_id = (String) map.get("friend_id");
+	    map.put("user_id", user_id);
+	    map.put("friend_id", friend_id);
+		log.info("###user_id : " + user_id);
+		log.info("###friend_id : " + friend_id);
+		int deleteFriend = iFriendInfoService.deleteFriend(map);
+		Map<String, String> response = new HashMap<>();
+	    response.put("friend_id", friend_id);
+	    return response;
+	} 
 }

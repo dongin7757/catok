@@ -37,7 +37,7 @@
 					<tr>
 						<td>${member.user_id}</td>
 						<td>${member.user_name}</td>
-						<td><button type="button" value="${member.user_id}">추가</button></td>
+						<td><button class="addFriend" value="${member.user_id}" onclick="addFriend(event)">추가</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

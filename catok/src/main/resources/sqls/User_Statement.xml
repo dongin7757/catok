@@ -23,12 +23,16 @@
 		SELECT USER_ID, USER_NAME
 			FROM KKATOK.USERINFO u 
 				WHERE 1=1
+				AND USER_ID NOT IN (SELECT FRIEND_ID
+									FROM KKATOK.FRIENDINFO
+									WHERE USER_ID = #{myId})
+				AND USER_ID != #{myId}
 				<if test="user_id != null and user_id != ''">
 					AND USER_ID LIKE '%' || #{user_id} || '%'
 				</if>
 				<if test="user_name != null and user_name != ''">
 					AND USER_NAME LIKE '%' || #{user_name} || '%'
 				</if>
-			ORDER BY USER_ID 
+			ORDER BY USER_ID
 	</select>
 </mapper>
