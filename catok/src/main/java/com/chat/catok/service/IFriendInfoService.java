@@ -16,4 +16,6 @@ public interface IFriendInfoService {
 	// 친구 추가
 	public int insertFriend(Map<String, Object> map);
 		
+	// 친구 삭제
+	public int deleteFriend(Map<String, Object> map);
 }

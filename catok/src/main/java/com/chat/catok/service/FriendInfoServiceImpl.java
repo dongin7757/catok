@@ -31,4 +31,11 @@ public class FriendInfoServiceImpl implements IFriendInfoService {
 	public int insertFriend(Map<String, Object> map) {
 		return dao.insertFriend(map);
 	}
+	
+	// 친구 삭제
+	@Override
+	public int deleteFriend(Map<String, Object> map) {
+		return dao.deleteFriend(map);
+	}
+	
 }

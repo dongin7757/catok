@@ -13,6 +13,7 @@
 <jsp:include page="./header.jsp" />
 </head>
 <script type="text/javascript" src="./js/chatRoom.js"></script>
+<script type="text/javascript" src="./js/myfriendsList.js"></script>
 <body>
 	내 친구 리스트
 	<div>
@@ -34,15 +35,11 @@
 						<td>${friend.friend_id}</td>
 						<td>${friend.add_regdate}</td>
 						<td><input type="button" value="채팅" onclick="createNewChat('${friend.friend_id}')"></td>
-						<td><input type="button" value="친구 삭제"></td>
+						<td><button type="button" onclick="deleteFriend(event)" value="${friend.friend_id}">친구삭제</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-
 	</div>
-
-	
-	</script>
 </body>
 </html>

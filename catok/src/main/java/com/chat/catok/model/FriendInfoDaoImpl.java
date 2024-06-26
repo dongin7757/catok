@@ -36,4 +36,10 @@ public class FriendInfoDaoImpl implements IFriendInfoDao {
 	public int insertFriend(Map<String, Object> map) {
 		return sqlSession.insert(NS+"insertFriend",map);
 	}
+
+	// 친구 삭제
+	@Override
+	public int deleteFriend(Map<String, Object> map) {
+		return sqlSession.delete(NS+"deleteFriend",map);
+	}
 }

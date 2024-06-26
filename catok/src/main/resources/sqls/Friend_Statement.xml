@@ -16,5 +16,13 @@
 		VALUES(
 			#{user_id}, #{friend_id})
 	</insert>
+	
+	<!-- 친구삭제 -->
+	<insert id="deleteFriend" parameterType="java.util.Map">
+		DELETE 
+			FROM KKATOK.FRIENDINFO
+			WHERE USER_ID = #{user_id}
+			AND FRIEND_ID = #{friend_id}
+	</insert>
 
 </mapper>
