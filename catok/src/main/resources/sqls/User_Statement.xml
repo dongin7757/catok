@@ -29,5 +29,6 @@
 				<if test="user_name != null and user_name != ''">
 					AND USER_NAME LIKE '%' || #{user_name} || '%'
 				</if>
+			ORDER BY USER_ID 
 	</select>
 </mapper>

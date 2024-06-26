@@ -1,6 +1,7 @@
 package com.chat.catok.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,9 +50,14 @@ public class FriendInfoController {
 	
 	// 친구추가 페이지 이동
 	@GetMapping("/addFriend.do")
-	public String addFriend(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+	public String addFriend(Model model) {
+		
+		Map<String, Object> map = new HashMap<>();
+		List<UserInfoVo> members = iUserInfoService.searchUserInfoList(map);
+		model.addAttribute("members", members);
 		return "user/addFriend";
 	}
+	
 	
 	// 회원 검색
 	@PostMapping("/searchFriendsInfo.do")
