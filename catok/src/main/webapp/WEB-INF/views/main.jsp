@@ -30,6 +30,7 @@
 		<button onclick="location.href='./myFriendsList.do'"> 내 친구 리스트 </button>
 		<button onclick="location.href='./moveFriendPg.do'"> 친구추가 </button>
 		<button onclick="location.href='./myChatRoomList.do'"> 내 채팅방 리스트 </button>
+		<button onclick="location.href='./getFriendsReqList.do'"> 알 수도 있는 친구 </button>
 	</div>
 	
 	

@@ -38,4 +38,21 @@ public class FriendInfoServiceImpl implements IFriendInfoService {
 		return dao.deleteFriend(map);
 	}
 	
+	//내가 친구를 승인하지 않은 친구신청을 한 유저들의 리스트
+	@Override
+	public List<FriendInfoVo> getFriendsReqList(String user_id) {
+		return dao.getFriendsReqList(user_id);
+	}
+
+	//친구 차단!
+	@Override
+	public int blockFriend(Map<String, Object> map) {
+		
+//		dao.
+		
+		return 0;
+	}
+	
+	
+	
 }

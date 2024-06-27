@@ -1,3 +1,25 @@
+window.onload = function(){
+	
+	let listBody = document.getElementById('friendList');
+	
+//	console.log(listBody);
+	
+	let trList = []; 
+	trList = listBody.querySelectorAll('tr')
+	
+	trList.forEach(tr => {
+		const friendId = tr.querySelector('input').value
+//		console.log(friendId);
+		tr.addEventListener('dblclick', function(){
+			createNewChat(friendId);
+		});
+	})
+	
+
+	
+}
+
+
 function createNewChat(friendId){
 	console.log(friendId);
     
