@@ -21,7 +21,7 @@
 		<table border="1">
 			<thead>
 				<tr>
-					<th>내 ID</th>
+<!-- 					<th>내 ID</th> -->
 					<th>친구 ID</th>
 					<th>친구 추가 일</th>
 					<th>1:1채팅</th>
@@ -31,7 +31,7 @@
 			<tbody>
 				<c:forEach var="friend" items="${friends}">
 					<tr>
-						<td>${friend.user_id}</td>
+<%-- 						<td>${friend.user_id}</td> --%>
 						<td>${friend.friend_id}</td>
 						<td>${friend.add_regdate}</td>
 						<td><input type="button" value="채팅" onclick="createNewChat('${friend.friend_id}')"></td>

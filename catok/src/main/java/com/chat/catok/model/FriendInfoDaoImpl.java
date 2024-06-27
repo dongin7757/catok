@@ -42,4 +42,16 @@ public class FriendInfoDaoImpl implements IFriendInfoDao {
 	public int deleteFriend(Map<String, Object> map) {
 		return sqlSession.delete(NS+"deleteFriend",map);
 	}
+
+	// 내가 친구를 승인하지 않은 친구신청을 한 유저들의 리스트
+	@Override
+	public List<FriendInfoVo> getFriendsReqList(String user_id) {
+		return sqlSession.selectList(NS+"getFriendsReqList",user_id);
+	}
+
+	//친구 차단!
+	@Override
+	public int blockFriend(Map<String, Object> map) {
+		return sqlSession.insert(NS+"blockFriend", map);
+	}
 }

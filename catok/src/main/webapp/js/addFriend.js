@@ -78,3 +78,14 @@ function addFriend(event) {
         console.error('Error:', error);
     });
 };
+
+
+function blockFrd(user_id){
+	const BLOCKID = user_id;
+	let data = `{blockId : ${BLOCKID}}`;
+	let jsonBody = JSON.stringify(data);
+	
+//	fetch('./',
+//	 )
+	
+}

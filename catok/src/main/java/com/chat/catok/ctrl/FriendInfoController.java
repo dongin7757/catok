@@ -22,6 +22,8 @@ import com.chat.catok.vo.UserInfoVo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @Slf4j
@@ -62,11 +64,13 @@ public class FriendInfoController {
 	// 회원 검색
 	@PostMapping("/searchFriendsInfo.do")
 	@ResponseBody
-	public List<UserInfoVo> searchFriendsInfo(@RequestBody Map<String,Object> map) {
+	public List<UserInfoVo> searchFriendsInfo(@AuthenticationPrincipal UserDetails userDetails, @RequestBody Map<String,Object> map) {
 	    String user_id = (String) map.get("user_id");
 	    String user_name = (String) map.get("user_name");
 	    log.info("##user_id : " + user_id);
 	    log.info("##user_name : " + user_name);
+	    String myId = userDetails.getUsername();
+	    map.put("myId", myId);
 	    
 	    if(user_id != null && !user_id.isEmpty()) {
 	        map.put("user_id", user_id);
@@ -119,4 +123,14 @@ public class FriendInfoController {
 	    response.put("friend_id", friend_id);
 	    return response;
 	} 
+	
+	//내가 친구를 승인하지 않은 친구신청을 한 유저들의 리스트
+	@GetMapping("/getFriendsReqList.do")
+	public String getMethodName(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		String user_id = userDetails.getUsername();
+		List<FriendInfoVo> reqList = iFriendInfoService.getFriendsReqList(user_id);
+		model.addAttribute("reqList", reqList);
+		return "user/friendReqList";
+	}
+	
 }

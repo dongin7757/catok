@@ -21,4 +21,10 @@ public interface IFriendInfoDao {
 	
 	// 친구 삭제
 	public int deleteFriend(Map<String, Object> map);
+	
+	//내가 친구를 승인하지 않은 친구신청을 한 유저들의 리스트
+	public List<FriendInfoVo> getFriendsReqList(String user_id);
+	
+	//친구 차단!
+	public int blockFriend(Map<String, Object> map);
 }
