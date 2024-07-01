@@ -24,5 +24,6 @@ public interface IChatService {
 	//나의 채팅방 리스트 가져오기
 	public List<ChatRoomListVo> getMyChatRoomList(String user_id);
 	
-		
+	// 채팅내용 저장
+	public int insertChatMessage(Map<String, Object> map);
 }

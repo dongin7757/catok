@@ -51,6 +51,10 @@ public class ChatDaoImpl implements IChatDao {
 		return sqlSession.selectList(NS+"getMyChatRoomList", user_id);
 	}
 
-
-
+	
+	// 채팅내용 저장
+	@Override
+	public int insertChatMessage(Map<String, Object> map) {
+		return sqlSession.insert(NS+"insertChatMessage", map);
+	}
 }

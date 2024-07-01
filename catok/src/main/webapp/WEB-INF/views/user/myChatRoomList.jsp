@@ -18,6 +18,7 @@
 <script type="text/javascript" src="./js/chatRoom.js"></script>
 	
 <title>나의 채팅방 목록</title>
+<jsp:include page="../header.jsp" />
 </head>
 <body>
 
