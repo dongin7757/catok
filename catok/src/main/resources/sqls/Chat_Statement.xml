@@ -54,6 +54,10 @@
 			ORDER BY CHAT_REGDATE DESC
 	</select>
 	
-	
-		
+	<!-- 채팅내용 저장 -->
+	<insert id="insertChatMessage" parameterType="java.util.Map">
+		INSERT INTO KKATOK.CHATINFO
+			(CHAT_ID, USER_ID, CHAT_MESSAGE)
+		VALUES(#{chat_id}, #{user_id}, #{chat_message})
+	</insert>
 </mapper>

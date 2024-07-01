@@ -31,7 +31,6 @@
 			<tbody>
 				<c:forEach var="friend" items="${friends}">
 					<tr>
-<%-- 						<td>${friend.user_id}</td> --%>
 						<td>${friend.friend_id}</td>
 						<td>${friend.add_regdate}</td>
 						<td><input type="button" value="채팅" onclick="createNewChat('${friend.friend_id}')"></td>

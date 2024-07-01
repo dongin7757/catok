@@ -14,6 +14,10 @@
 <script type="text/javascript" src="./js/socket.js"></script>
 </head>
 <body>
-
+	<div>
+        <c:set var="myId" value="${pageContext.request.userPrincipal.name}" />
+        <p>현재 사용자 ID!!!: ${myId}</p>
+        <input type="hidden" id="myId" value="${myId}"/>
+    </div>
 </body>
 </html>

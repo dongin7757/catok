@@ -21,7 +21,7 @@ public class ChatServiceImpl implements IChatService {
 	private IChatDao dao;
 	
 	
-	//친구와의 1:1채팅방 조회
+	// 친구와의 1:1채팅방 조회
 	@Override
 	public String getChatRoomChatId(Map<String, Object> map) {
 		log.info("#####친구와의 방 찾기 내 아디 : {}, 친구 아디 : {}", map.get("my_id"), map.get("friend_id"));
@@ -30,7 +30,7 @@ public class ChatServiceImpl implements IChatService {
 		return roomId;
 	}
 
-	//방 조회 후 존재 시 채팅방 내역 가져오기
+	// 방 조회 후 존재 시 채팅방 내역 가져오기
 	@Override
 	public List<ChatInfoVo> getChatInfo(String chat_id) {
 		List<ChatInfoVo> chattings = dao.getChatInfo(chat_id);
@@ -38,7 +38,7 @@ public class ChatServiceImpl implements IChatService {
 	}
 	
 	
-	//방 조회 후 없을 시 1:1채팅방 생성
+	// 방 조회 후 없을 시 1:1채팅방 생성
 	@Override
 	@Transactional
 	public int createNewChatRoomAndInfo(List<String> user_ids) {
@@ -50,7 +50,7 @@ public class ChatServiceImpl implements IChatService {
 		return roomOk + peopleOk;
 	}
 //	
-//	//채팅방 인원 추가
+//	// 채팅방 인원 추가
 //	@Override
 //	public int createChatRoomInfo(String user_id) {
 //		log.info("새로운 채팅창 만들기 : {}", user_id);
@@ -61,11 +61,18 @@ public class ChatServiceImpl implements IChatService {
 //	
 
 	
-	//나의 채팅방 리스트 가져오기
+	// 나의 채팅방 리스트 가져오기
 	@Override
 	public List<ChatRoomListVo> getMyChatRoomList(String user_id) {
 		log.info("#### 나의 아이디가 속한 채팅방 조회~ : {}", user_id);
 		return dao.getMyChatRoomList(user_id);
+	}
+
+	// 채팅내용 저장
+	@Override
+	public int insertChatMessage(Map<String, Object> map) {
+		log.info("#### 채팅내용 저장 : ", map);
+		return dao.insertChatMessage(map);
 	}
 	
 }
