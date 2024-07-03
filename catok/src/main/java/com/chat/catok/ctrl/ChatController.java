@@ -108,15 +108,7 @@ public class ChatController {
 		}
 	}
 	
-	@GetMapping("/catok")
-	public String chatGET() {
-		log.info("##챗팅Get");
-		return "chater";
-	}
 	
-	
-	
-
 	
 	
 }

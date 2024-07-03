@@ -47,6 +47,15 @@ public class FriendInfoController {
 		return "myfriendsList";
 	}
 	
+//	친구 리스트 아작스로 불러오기
+	
+	@PostMapping("/getMyFriList.do")
+	@ResponseBody
+	public String getMyFriList() {
+		
+		return null;
+	}
+	
 	// 친구추가 페이지 이동
 	@GetMapping("/moveFriendPg.do")
 	public String moveFriendPg(@AuthenticationPrincipal UserDetails userDetails, Model model) {
