@@ -11,7 +11,8 @@
 <title>header</title>
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script type="text/javascript" src="./js/socket.js"></script>
+<script type="text/javascript" src="./js/notificationSocket.js"></script>
+<!-- <script type="text/javascript" src="./js/oneChatSocket.js"></script> -->
 </head>
 <body>
 	<div>

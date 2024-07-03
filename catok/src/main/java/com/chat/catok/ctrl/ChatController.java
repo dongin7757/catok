@@ -35,28 +35,45 @@ public class ChatController {
 		
 		log.info("###넘어온 friendId : " + friendId);
 		String subFriendId = friendId.substring(10);
+		
+		
 		model.addAttribute("friendId",subFriendId);
 		
+		
+		//친구와 나의 방이 존재하는데 조회하는데 사용될 매개변수들
 		Map<String, Object> map = new HashMap<>(); 	
 		
 		String my_id = userDetails.getUsername();
 		map.put("my_id", my_id);
 		map.put("friend_id", subFriendId);
+
 		
+		//방이 없을 시 새로 생성하는데 쓰일 매개변수들 
 		List<String> users = new ArrayList<String>();
 		users.add(my_id);
 		users.add(subFriendId);
 		
+		//나와 친구의 아이디로 방 존재 조회
 		String chat_id = chatService.getChatRoomChatId(map);
 		log.info("####조회된 채팅방 번호 : {}", chat_id);
+		
+		//방이 존재할 시 실행 기존 채팅방의 내역들을 가져옴.
 		if(chat_id != null) {
 			List<ChatInfoVo> chattings = chatService.getChatInfo(chat_id);
+			log.info("######가져온 채팅 내역 : {}",chattings);
 			model.addAttribute("chattings",chattings);
 			model.addAttribute("myId",my_id);
 			model.addAttribute("chatId",chat_id);
+		//방이 존재하지 않을 시 실행 새로 채팅방을 생성함
 		}else {
 			chatService.createNewChatRoomAndInfo(users);
+			//생성 후 생성한 방의 번호 가져오기
+			chat_id = chatService.getChatRoomChatId(map);
+			log.info("####새로 생성후, 가져온 채팅방 번호 : {}", chat_id);
+			model.addAttribute("myId",my_id);
+			model.addAttribute("chatId",chat_id);
 		}
+		
 		return "chatPopup";
 	}
 	

@@ -15,7 +15,6 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/chatRoom.js"></script>
 	
 <title>나의 채팅방 목록</title>
 <jsp:include page="../header.jsp" />
@@ -45,4 +44,5 @@
 		</table>
 	</div>
 </body>
+<script type="text/javascript" src="./js/chatRoom.js"></script>
 </html>
