@@ -41,3 +41,41 @@ function createNewChat(friendId){
     document.body.removeChild(form);
 
 }
+
+
+function getMyFriList(){
+
+	fetch('./getMyFriList.do', {
+		headers : {
+			    'Content-Type': 'text/plain', // 일반 텍스트로 설정
+			},
+		method : "GET"
+	})
+	.then(response => {
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		return response.json();
+	})
+	.then(data => {
+		
+		const TBODY = document.querySelector('#friList');
+		
+		let html = '';
+	
+		data.forEach(friend => {
+					html += `<tr> <td>${data.friend_id}</td> <td><input type="checkbox" value = ${data.friend_id}></td> </tr>`	
+			}
+		)		
+		
+		TBODY.appendChild = html;
+			
+	})
+	
+}
+
+
+function createGroupChat(){
+	
+	
+}

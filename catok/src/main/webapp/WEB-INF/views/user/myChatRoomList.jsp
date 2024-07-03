@@ -21,8 +21,41 @@
 </head>
 <body>
 
-	내가 포함된 채팅방 리스트
 	<div class="container">
+	<p>내가 포함된 채팅방 리스트 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="float: right;" onclick="getMyFriList()">단체방 생성</button></p>
+	
+	
+		<div class="modal fade" id="myModal" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">그룹채팅 생성</h4>
+		        </div>
+		        <div class="modal-body">
+		          <table class="table table-hover">
+		          	<thead>
+		          		<tr>
+							<th>이름</th>		          		
+							<th><input type="checkbox" onclick="allChk()"></th>		          		
+		          		</tr>
+		          	</thead>
+		          	<tbody id="friList">
+		          	
+		          	</tbody>
+		          </table>
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-success" onclick="createGroupChat()">채팅방 생성</button>
+		          <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		  </div>
+	
 		<table class="table">
 			<thead>
 				<tr>
