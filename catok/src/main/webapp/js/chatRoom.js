@@ -15,8 +15,6 @@ window.onload = function(){
 		});
 	})
 	
-
-	
 }
 
 
@@ -46,9 +44,6 @@ function createNewChat(friendId){
 function getMyFriList(){
 
 	fetch('./getMyFriList.do', {
-		headers : {
-			    'Content-Type': 'text/plain', // 일반 텍스트로 설정
-			},
 		method : "GET"
 	})
 	.then(response => {
@@ -58,24 +53,78 @@ function getMyFriList(){
 		return response.json();
 	})
 	.then(data => {
-		
-		const TBODY = document.querySelector('#friList');
-		
+		let tbody = document.querySelector('#friList');
+		console.log(tbody);
+		console.log(data);
 		let html = '';
 	
 		data.forEach(friend => {
-					html += `<tr> <td>${data.friend_id}</td> <td><input type="checkbox" value = ${data.friend_id}></td> </tr>`	
+				html += `<tr> <td>${friend.friend_id}</td> <td><input type="checkbox" class="friendsCheckbox" onclick="friendsChk(this)" value = ${friend.friend_id}></td> </tr>`	
+				console.log(friend.friend_id);
+				console.log(html);
 			}
-		)		
-		
-		TBODY.appendChild = html;
-			
+		)
+		tbody.innerHTML = html;
 	})
 	
 }
 
-
-function createGroupChat(){
+function friendsChk() {
+	let selectAllCheckbox = document.getElementById('selectAll');
+    let friendsCheckbox = document.querySelectorAll('.friendsCheckbox');
+	let checked = document.querySelectorAll('input[class="friendsCheckbox"]:checked');
 	
+	if(friendsCheckbox.length === checked.length) {
+		selectAllCheckbox.checked = true;
+	} else {
+		selectAllCheckbox.checked = false;
+	}
+}
+
+function allChk() {
+	let selectAllCheckbox = document.getElementById('selectAll');
+    let friendsCheckbox = document.querySelectorAll('.friendsCheckbox');
+    selectAllCheckbox.addEventListener('change', function() {
+        friendsCheckbox.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+}
+	
+function createGroupChat(){
+	let chkedList = document.querySelectorAll('.friendsCheckbox:checked');
+	console.log('##영태의 chked : ', chkedList);
+	let friends = [];
+	
+	chkedList.forEach(data => {
+		console.log(data);
+		friends.push(data.value);
+	})
+	
+    let bodydate = JSON.stringify(friends);
+    console.log(bodydate);
+    
+	fetch('./inviteFriendsToChatroom.do', {
+		method : "POST",
+		headers : {
+			'Content-Type':'application/json'
+		},
+		body: bodydate
+	})
+	.then(response => {
+		if (!response.ok) {
+			alert('방 생성에 실패하였습니다!');
+			throw new Error('Network response was not ok');
+		}
+		//console.log(response.text());
+		return response.text();
+	})
+	.then(data => {
+		
+		console.log(data);
+		alert('방이 생성되었습니다!');
+		window.open(data, 'popupWindow', 'width=400,height=600');
+		
+	})
 	
 }

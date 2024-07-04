@@ -49,11 +49,19 @@ public class FriendInfoController {
 	
 //	친구 리스트 아작스로 불러오기
 	
-	@PostMapping("/getMyFriList.do")
+	@GetMapping("/getMyFriList.do")
 	@ResponseBody
-	public String getMyFriList() {
+	public List<FriendInfoVo> getMyFriList(@AuthenticationPrincipal UserDetails userDetails) {
 		
-		return null;
+		List<FriendInfoVo> friends = new ArrayList<>();
+		
+		if(userDetails != null) {
+			String user_id = userDetails.getUsername();
+			log.info("##영태의 아이디 : "  + user_id);
+			friends = iFriendInfoService.getFriendList(user_id);
+			log.info("##영태 friends : " + friends);
+		}
+		return friends;
 	}
 	
 	// 친구추가 페이지 이동

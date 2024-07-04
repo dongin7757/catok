@@ -21,12 +21,20 @@
 		ORDER BY CHAT_REGDATE
 	</select>
 	
-	<!-- 1대1 채팅방 생성 -->
+	<!-- 1:1 채팅방 생성 -->
 	<insert id="createNewChatRoom">
 		INSERT INTO KKATOK.CHATROOM(
 			CHAT_ID, ROOM_TYPE)
 		VALUES(
 			KKATOK.CHATROOM_SEQUENCE.NEXTVAL, '1')
+	</insert>
+	
+	<!-- 1:N 채팅방 생성 -->
+	<insert id="createNewGroupChatRoom">
+		INSERT INTO KKATOK.CHATROOM(
+			CHAT_ID, ROOM_TYPE)
+		VALUES(
+			KKATOK.CHATROOM_SEQUENCE.NEXTVAL, 'N')
 	</insert>
 	
 	

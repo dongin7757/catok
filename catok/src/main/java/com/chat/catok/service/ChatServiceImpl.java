@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chat.catok.model.IChatDao;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
-import com.chat.catok.vo.ChatroomVo;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -42,11 +41,10 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	@Transactional
 	public int createNewChatRoomAndInfo(List<String> user_ids) {
-		int roomOk = dao.createNewChatRoom();
-		int peopleOk = dao.createChatRoomInfo(user_ids);
+		int roomOk = dao.createNewChatRoom(); // 방이 생성되었을 경우
+		int peopleOk = dao.createChatRoomInfo(user_ids); // 이용자 정보를 채팅방번호에 다 넣었을 경우
 		
 		log.info("####방 생성 여부 : {}, 인원 추가 여부 : {}", roomOk, peopleOk);
-		
 		return roomOk + peopleOk;
 	}
 //	
@@ -73,6 +71,17 @@ public class ChatServiceImpl implements IChatService {
 	public int insertChatMessage(Map<String, Object> map) {
 		log.info("#### 채팅내용 저장 : ", map);
 		return dao.insertChatMessage(map);
+	}
+	
+	// 1:N채팅방 생성
+	@Override
+	@Transactional
+	public int createNewGroupChatRoom(List<String> user_ids) {
+		int roomOk = dao.createNewGroupChatRoom(); // 방이 생성되었을 경우
+		int peopleOk = dao.createChatRoomInfo(user_ids); // 이용자 정보를 채팅방번호에 다 넣었을 경우
+		
+		log.info("####방 생성 여부 : {}, 인원 추가 여부 : {}", roomOk, peopleOk);
+		return roomOk + peopleOk;
 	}
 	
 }
