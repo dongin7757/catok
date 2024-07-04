@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.chat.catok.service.IChatService;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
+import com.chat.catok.vo.FriendInfoVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -108,7 +109,20 @@ public class ChatController {
 		}
 	}
 	
+	@PostMapping("/inviteFriendsToChatroom.do")
+	@ResponseBody
+	public String inviteFriendsToChatroom(@AuthenticationPrincipal UserDetails userDetail, @RequestBody List<String> friendList) {
+		log.info("#### friendList : " + friendList);
+//		int createGroupChatroom = chatService.createNewGroupChatRoom(friendList);
+//		if(createGroupChatroom >= 2) {
+//			return "groupChatPopup";
+//		} else {
+//			return "errorPg";
+//		}
+		return "groupChatPopup";
+	}
 	
+//	@PostMapping("/groupChatPopup.do")
 	
 	
 }
