@@ -32,4 +32,7 @@ public interface IChatDao {
 	
 	// 1:N채팅방 생성
 	public int createNewGroupChatRoom();
+	
+	// 생성된 그룹 채팅방 아이디 조회
+	public String selectGroupChatId();
 }

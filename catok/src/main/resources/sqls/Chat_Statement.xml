@@ -49,19 +49,19 @@
   	
   	<!-- 나의 채팅방 리스트 조회 -->
 	<select id="getMyChatRoomList" parameterType="java.lang.String" resultType="ChatRoomListVo">
-	SELECT *
-		FROM(
-			SELECT c.CHAT_ID, C2.USER_ID, c.CHAT_MESSAGE, C.CHAT_REGDATE  
-			FROM KKATOK.CHATINFO c INNER JOIN
-				(SELECT CHAT_ID ,USER_ID 
-					FROM KKATOK.CHATROOMPARTICIPATE c2  
-					WHERE CHAT_ID IN (SELECT CHAT_ID 
-							FROM KKATOK.CHATROOMPARTICIPATE c
-							WHERE USER_ID = #{user_id})
-					AND C2.USER_ID != #{user_id})C2
-				ON c2.CHAT_ID = c.CHAT_ID
-				ORDER BY CHAT_REGDATE DESC
-			)
+		SELECT *
+			FROM(
+				SELECT c.CHAT_ID, C2.USER_ID, c.CHAT_MESSAGE, C.CHAT_REGDATE  
+				FROM KKATOK.CHATINFO c INNER JOIN
+					(SELECT CHAT_ID ,USER_ID 
+						FROM KKATOK.CHATROOMPARTICIPATE c2  
+						WHERE CHAT_ID IN (SELECT CHAT_ID 
+								FROM KKATOK.CHATROOMPARTICIPATE c
+								WHERE USER_ID = #{user_id})
+						AND C2.USER_ID != #{user_id})C2
+					ON c2.CHAT_ID = c.CHAT_ID
+					ORDER BY CHAT_REGDATE DESC
+				)
 		WHERE ROWNUM = 1		
 	</select>
 	
@@ -71,4 +71,10 @@
 			(CHAT_ID, USER_ID, CHAT_MESSAGE)
 		VALUES(#{chat_id}, #{user_id}, #{chat_message})
 	</insert>
+	
+	<!-- 생성된 그룹 채팅방 아이디 조회 -->
+	<select id="selectGroupChatId" resultType="java.lang.String">
+		SELECT KKATOK.CHATROOM_SEQUENCE.CURRVAL
+        	FROM DUAL
+	</select>
 </mapper>

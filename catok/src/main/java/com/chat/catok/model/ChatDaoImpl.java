@@ -62,5 +62,10 @@ public class ChatDaoImpl implements IChatDao {
 	public int createNewGroupChatRoom() {
 		return sqlSession.insert(NS+"createNewGroupChatRoom");
 	}
+
+	@Override
+	public String selectGroupChatId() {
+		return sqlSession.selectOne(NS+"selectGroupChatId");
+	}
 	
 }

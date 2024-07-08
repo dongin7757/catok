@@ -121,7 +121,6 @@ function createGroupChat(){
 	})
 	.then(data => {
 		
-		console.log(data);
 		alert('방이 생성되었습니다!');
 		window.open(data, 'popupWindow', 'width=400,height=600');
 		
