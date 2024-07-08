@@ -28,5 +28,5 @@ public interface IChatService {
 	public int insertChatMessage(Map<String, Object> map);
 	
 	// 1:N채팅방 생성
-	public int createNewGroupChatRoom(List<String> user_ids);
+	public String createNewGroupChatRoom(List<String> user_ids);
 }

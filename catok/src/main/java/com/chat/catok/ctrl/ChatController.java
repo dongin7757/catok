@@ -1,6 +1,7 @@
 package com.chat.catok.ctrl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chat.catok.service.IChatService;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
-import com.chat.catok.vo.FriendInfoVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,6 +66,7 @@ public class ChatController {
 			model.addAttribute("chattings",chattings);
 			model.addAttribute("myId",my_id);
 			model.addAttribute("chatId",chat_id);
+			
 		//방이 존재하지 않을 시 실행 새로 채팅방을 생성함
 		}else {
 			chatService.createNewChatRoomAndInfo(users);
@@ -111,18 +113,31 @@ public class ChatController {
 	
 	@PostMapping("/inviteFriendsToChatroom.do")
 	@ResponseBody
-	public String inviteFriendsToChatroom(@AuthenticationPrincipal UserDetails userDetail, @RequestBody List<String> friendList) {
+	public String inviteFriendsToChatroom(@AuthenticationPrincipal UserDetails userDetail, @RequestBody List<String> friendList, Model model) {
 		log.info("#### friendList : " + friendList);
-//		int createGroupChatroom = chatService.createNewGroupChatRoom(friendList);
-//		if(createGroupChatroom >= 2) {
-//			return "groupChatPopup";
-//		} else {
-//			return "errorPg";
-//		}
-		return "groupChatPopup";
+		
+		String GroupChatroomId = chatService.createNewGroupChatRoom(friendList);
+		
+		if(GroupChatroomId.equals(null) || GroupChatroomId.equals("")) {
+			return "errorPg";
+		} else {
+			return "./groupChatPopup.do?groupChatroomId=" + GroupChatroomId;
+		}
 	}
 	
-//	@PostMapping("/groupChatPopup.do")
+	@GetMapping("/groupChatPopup.do") 
+	public String groupChatPopup(@AuthenticationPrincipal UserDetails userDetail, @RequestParam("groupChatroomId") String groupChatroomId,  Model model) {
+		String myId = userDetail.getUsername();
+		model.addAttribute("myId", myId);
+		model.addAttribute("groupChatroomId", groupChatroomId);
+		if(groupChatroomId != null) {
+			List<ChatInfoVo> chattings = chatService.getChatInfo(groupChatroomId);
+			log.info("######가져온 채팅 내역 : {}",chattings);
+			model.addAttribute("chattings",chattings);
+		}
+		return "user/groupChatPopup";
+	}
+		
 	
 	
 }

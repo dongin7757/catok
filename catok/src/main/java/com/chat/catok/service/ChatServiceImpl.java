@@ -76,12 +76,18 @@ public class ChatServiceImpl implements IChatService {
 	// 1:N채팅방 생성
 	@Override
 	@Transactional
-	public int createNewGroupChatRoom(List<String> user_ids) {
-		int roomOk = dao.createNewGroupChatRoom(); // 방이 생성되었을 경우
-		int peopleOk = dao.createChatRoomInfo(user_ids); // 이용자 정보를 채팅방번호에 다 넣었을 경우
-		
+	public String createNewGroupChatRoom(List<String> user_ids) {
+		int roomOk;
+		int peopleOk;
+		try {
+			roomOk = dao.createNewGroupChatRoom();
+			peopleOk = dao.createChatRoomInfo(user_ids);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "errorPg";
+		}
+		String selectGroupChatId = dao.selectGroupChatId();
 		log.info("####방 생성 여부 : {}, 인원 추가 여부 : {}", roomOk, peopleOk);
-		return roomOk + peopleOk;
+		return selectGroupChatId;
 	}
-	
 }
