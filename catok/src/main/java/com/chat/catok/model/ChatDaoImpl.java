@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
+import com.chat.catok.vo.ChatroomParticipateVo;
 import com.chat.catok.vo.ChatroomVo;
 
 @Repository
@@ -59,13 +60,22 @@ public class ChatDaoImpl implements IChatDao {
 	
 	// 1:N채팅방 생성
 	@Override
-	public int createNewGroupChatRoom() {
-		return sqlSession.insert(NS+"createNewGroupChatRoom");
+	public int createNewGroupChatRoom(String chat_title) {
+		return sqlSession.insert(NS+"createNewGroupChatRoom",chat_title);
 	}
 
+	// 생성된 그룹 채팅방 아이디 조회
 	@Override
 	public String selectGroupChatId() {
 		return sqlSession.selectOne(NS+"selectGroupChatId");
 	}
+
+	//	그룹 채팅방에 속해있는지 확인용
+	@Override
+	public ChatroomParticipateVo checkMyGroupRoom(ChatroomParticipateVo vo) {
+		return sqlSession.selectOne(NS+"checkMyGroupRoom", vo);
+	}
+	
+	
 	
 }

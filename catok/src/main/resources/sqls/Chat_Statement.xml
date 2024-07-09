@@ -30,11 +30,11 @@
 	</insert>
 	
 	<!-- 1:N 채팅방 생성 -->
-	<insert id="createNewGroupChatRoom">
+	<insert id="createNewGroupChatRoom" parameterType="java.lang.String">
 		INSERT INTO KKATOK.CHATROOM(
-			CHAT_ID, ROOM_TYPE)
+			CHAT_ID, ROOM_TYPE, CHAT_TITLE)
 		VALUES(
-			KKATOK.CHATROOM_SEQUENCE.NEXTVAL, 'N')
+			KKATOK.CHATROOM_SEQUENCE.NEXTVAL, 'N', #{chat_title} )
 	</insert>
 	
 	
@@ -77,4 +77,12 @@
 		SELECT KKATOK.CHATROOM_SEQUENCE.CURRVAL
         	FROM DUAL
 	</select>
+	
+	<!-- 그룹 채팅방에 속해있는지 확인용 -->
+	<select id="checkMyGroupRoom" resultType="ChatroomParticipateVo" parameterType="ChatroomParticipateVo">
+		SELECT *
+			FROM KKATOK.CHATROOMPARTICIPATE c 
+			WHERE CHAT_ID = #{chat_id} AND USER_ID = #{user_id} 
+	</select>
+	
 </mapper>

@@ -18,4 +18,5 @@ public class ChatroomVo {
 	private String chat_id;
 	private String chatroom_regdate;
 	private String room_type;
+	private String chat_title;
 }

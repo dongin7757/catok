@@ -1,5 +1,6 @@
 package com.chat.catok.ctrl;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.chat.catok.aes.EncryptionUtil;
 import com.chat.catok.service.IChatService;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
+import com.chat.catok.vo.ChatroomParticipateVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -113,29 +116,63 @@ public class ChatController {
 	
 	@PostMapping("/inviteFriendsToChatroom.do")
 	@ResponseBody
-	public String inviteFriendsToChatroom(@AuthenticationPrincipal UserDetails userDetail, @RequestBody List<String> friendList, Model model) {
+	public String inviteFriendsToChatroom(@AuthenticationPrincipal UserDetails userDetail, @RequestBody Map<String, Object> map, Model model) {
+		
+		log.info("클라이언트 요청 : {}", map);
+		log.info("클라이언트 친구리스트 : {}", map.get("friends"));
+		log.info("클라이언트 채팅방 제목 : {}", map.get("chat_title"));
+		
+		String myId = userDetail.getUsername();
+		
+		String chat_title = (String)map.get("chat_title");
+		List<String> friendList = (List<String>)map.get("friends");
+		friendList.add(myId);
+		
 		log.info("#### friendList : " + friendList);
 		
-		String GroupChatroomId = chatService.createNewGroupChatRoom(friendList);
+		String groupChatroomId = chatService.createNewGroupChatRoom(chat_title, friendList);
 		
-		if(GroupChatroomId.equals(null) || GroupChatroomId.equals("")) {
-			return "errorPg";
+		if(groupChatroomId.equals(null) || groupChatroomId.equals("")) {
+			return "error/errorPg";
 		} else {
-			return "./groupChatPopup.do?groupChatroomId=" + GroupChatroomId;
+			try {
+				String encodedId = EncryptionUtil.encode(groupChatroomId);
+				log.info("#$#$#$#$ 인코딩된 채팅방 넘버 : {}", encodedId);
+				return "./groupChatPopup.do?groupChatroomId=" + encodedId;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "error/errorPg";
+			}
 		}
+		
 	}
 	
 	@GetMapping("/groupChatPopup.do") 
 	public String groupChatPopup(@AuthenticationPrincipal UserDetails userDetail, @RequestParam("groupChatroomId") String groupChatroomId,  Model model) {
 		String myId = userDetail.getUsername();
-		model.addAttribute("myId", myId);
-		model.addAttribute("groupChatroomId", groupChatroomId);
 		if(groupChatroomId != null) {
-			List<ChatInfoVo> chattings = chatService.getChatInfo(groupChatroomId);
-			log.info("######가져온 채팅 내역 : {}",chattings);
-			model.addAttribute("chattings",chattings);
+		try {
+			String decodeId = EncryptionUtil.decode(groupChatroomId);
+			log.info("#######디코딩 된 채팅방 번호 : {} ",decodeId);
+			ChatroomParticipateVo vo = new ChatroomParticipateVo();
+			vo.setChat_id(decodeId);
+			vo.setUser_id(myId);
+//			vo.setUser_regdate("");
+			ChatroomParticipateVo vo2 = chatService.checkMyGroupRoom(vo);
+			if(vo2 != null) {
+				model.addAttribute("myId", myId);
+				model.addAttribute("groupChatroomId", decodeId);
+				List<ChatInfoVo> chattings =  chatService.getChatInfo(decodeId);
+				model.addAttribute("chattings", chattings);
+			}else {
+				return "error/errorPg";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return "user/groupChatPopup";
+			return "user/groupChatPopup";
+		}
+		return "error/errorPg";
 	}
 		
 	

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chat.catok.model.IChatDao;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
+import com.chat.catok.vo.ChatroomParticipateVo;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -47,16 +48,6 @@ public class ChatServiceImpl implements IChatService {
 		log.info("####방 생성 여부 : {}, 인원 추가 여부 : {}", roomOk, peopleOk);
 		return roomOk + peopleOk;
 	}
-//	
-//	// 채팅방 인원 추가
-//	@Override
-//	public int createChatRoomInfo(String user_id) {
-//		log.info("새로운 채팅창 만들기 : {}", user_id);
-//		
-//		
-//		return dao.createChatRoomInfo(user_id);
-//	}
-//	
 
 	
 	// 나의 채팅방 리스트 가져오기
@@ -76,18 +67,24 @@ public class ChatServiceImpl implements IChatService {
 	// 1:N채팅방 생성
 	@Override
 	@Transactional
-	public String createNewGroupChatRoom(List<String> user_ids) {
+	public String createNewGroupChatRoom(String chat_title, List<String> user_ids) {
 		int roomOk;
 		int peopleOk;
-		try {
-			roomOk = dao.createNewGroupChatRoom();
-			peopleOk = dao.createChatRoomInfo(user_ids);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "errorPg";
-		}
+		roomOk = dao.createNewGroupChatRoom(chat_title);
+		peopleOk = dao.createChatRoomInfo(user_ids);
+		
+		//방금 생성된 채팅방 번호 가져오기
 		String selectGroupChatId = dao.selectGroupChatId();
 		log.info("####방 생성 여부 : {}, 인원 추가 여부 : {}", roomOk, peopleOk);
 		return selectGroupChatId;
 	}
+
+	//내가 그룹방에 포함되어있는지 검증
+	@Override
+	public ChatroomParticipateVo checkMyGroupRoom(ChatroomParticipateVo vo) {
+		log.info("##### 서비스영역 그룹 채팅방 조회 정보 : {}", vo);
+		return dao.checkMyGroupRoom(vo);
+	}
+	
+	
 }

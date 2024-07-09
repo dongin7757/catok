@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
+import com.chat.catok.vo.ChatroomParticipateVo;
 import com.chat.catok.vo.ChatroomVo;
 
 public interface IChatService {
@@ -28,5 +29,8 @@ public interface IChatService {
 	public int insertChatMessage(Map<String, Object> map);
 	
 	// 1:N채팅방 생성
-	public String createNewGroupChatRoom(List<String> user_ids);
+	public String createNewGroupChatRoom(String chat_title, List<String> user_ids);
+	
+	//	그룹 채팅방에 속해있는지 확인용
+	public ChatroomParticipateVo checkMyGroupRoom (ChatroomParticipateVo vo);
 }
