@@ -23,6 +23,7 @@
         </div>
         <div>
             <div id="msgArea" class="col">
+            
             	<c:forEach items="${chattings}" var="chatting">
             		<div class="col-6">
             			<c:choose>
@@ -39,6 +40,7 @@
             			</c:choose>
             		</div>
             	</c:forEach>
+            
             </div>
             <div class="col-6">
                 <div class="input-group mb-3">

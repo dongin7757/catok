@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
+import com.chat.catok.vo.ChatroomParticipateVo;
 import com.chat.catok.vo.ChatroomVo;
 
 @Mapper
@@ -31,8 +32,11 @@ public interface IChatDao {
 	public int insertChatMessage(Map<String, Object> map);
 	
 	// 1:N채팅방 생성
-	public int createNewGroupChatRoom();
+	public int createNewGroupChatRoom(String chat_title);
 	
 	// 생성된 그룹 채팅방 아이디 조회
 	public String selectGroupChatId();
+	
+	//	그룹 채팅방에 속해있는지 확인용
+	public ChatroomParticipateVo checkMyGroupRoom (ChatroomParticipateVo vo);
 }

@@ -32,6 +32,8 @@
 						<h4 class="modal-title">그룹채팅 생성</h4>
 					</div>
 					<div class="modal-body">
+						<h3>방 제목을 작성하세요.</h3>
+						<input id="chat_title" class="form-control" type="text" maxlength="10" placeholder="10글자 제한입니다.">
 						<table class="table table-hover">
 							<thead>
 								<tr>

@@ -101,8 +101,19 @@ function createGroupChat(){
 		friends.push(data.value);
 	})
 	
-    let bodydate = JSON.stringify(friends);
+	console.log(friends);
+    
+    let chat_title = document.getElementById("chat_title").value;
+    
+    console.log(chat_title);
+    
+    const bodydate = JSON.stringify({"friends" : friends, "chat_title" : chat_title});
+    
+    
+//    let bodydate = JSON.stringify(friends);
     console.log(bodydate);
+    
+    
     
 	fetch('./inviteFriendsToChatroom.do', {
 		method : "POST",
@@ -122,6 +133,7 @@ function createGroupChat(){
 	.then(data => {
 		
 		alert('방이 생성되었습니다!');
+		console.log(data);
 		window.open(data, 'popupWindow', 'width=400,height=600');
 		
 	})
