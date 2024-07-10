@@ -158,8 +158,7 @@ public class ChatController {
 			vo.setChat_id(decodeId);
 			vo.setUser_id(myId);
 //			vo.setUser_regdate("");
-			ChatroomParticipateVo vo2 = chatService.checkMyGroupRoom(vo);
-			if(vo2 != null) {
+			if(chatService.checkMyGroupRoom(vo) != null) {
 				model.addAttribute("myId", myId);
 				model.addAttribute("groupChatroomId", decodeId);
 				List<ChatInfoVo> chattings =  chatService.getChatInfo(decodeId);
