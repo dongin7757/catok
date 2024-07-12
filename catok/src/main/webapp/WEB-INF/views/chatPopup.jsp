@@ -33,12 +33,12 @@
             			<c:choose>
             				<c:when test="${chatting.user_id eq myId}">
 		            			<div class="alert alert-secondary">
-		            				<b> ${chatting.user_id} : ${chatting.chat_message} </br> ${chatting.chat_regdate}</b>
+		            				<b> ${chatting.user_id} : ${chatting.chat_message} </br> ${fn:substring(chatting.chat_regdate,0,16)}</b>
 		            			</div>
             				</c:when>
             				<c:otherwise >
             					<div class="alert alert-warning">
-		            				<b> ${chatting.user_id} : ${chatting.chat_message} </br> ${chatting.chat_regdate}</b>
+		            				<b> ${chatting.user_id} : ${chatting.chat_message} </br> ${fn:substring(chatting.chat_regdate,0,16)}</b>
 		            			</div>
 		            		</c:otherwise>
             			</c:choose>

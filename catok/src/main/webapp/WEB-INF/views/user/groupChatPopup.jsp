@@ -19,7 +19,7 @@
     	<input type="hidden" id="myId" value="${myId}"/>
     	<input type="hidden" id="chatId" value="${groupChatroomId}"/>
         <div class="col-6">
-            <label><b>채팅방 이름이 들어갈 곳</b></label>
+            <label><b>${chat_title}입니다.</b></label>
         </div>
         <div>
             <div id="msgArea" class="col">

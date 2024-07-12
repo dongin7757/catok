@@ -1,6 +1,7 @@
 package com.chat.catok.ctrl;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,7 @@ import com.chat.catok.service.IUserInfoService;
 import com.chat.catok.vo.FriendInfoVo;
 import com.chat.catok.vo.UserInfoVo;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller

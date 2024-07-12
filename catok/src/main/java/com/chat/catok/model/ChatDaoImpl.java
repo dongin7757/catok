@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
 import com.chat.catok.vo.ChatroomParticipateVo;
-import com.chat.catok.vo.ChatroomVo;
+import com.chat.catok.vo.MyChatRoomListVo;
 
 @Repository
 @Primary
@@ -48,7 +48,7 @@ public class ChatDaoImpl implements IChatDao {
 
 	//나의 채팅방 리스트 가져오기
 	@Override
-	public List<ChatRoomListVo> getMyChatRoomList(String user_id) {
+	public List<MyChatRoomListVo> getMyChatRoomList(String user_id) {
 		return sqlSession.selectList(NS+"getMyChatRoomList", user_id);
 	}
 

@@ -1,26 +1,32 @@
 window.onload = function(){
 	
 	let listBody = document.getElementById('friendList');
-	
 //	console.log(listBody);
-	
-	let trList = []; 
+	let trList = [];
 	trList = listBody.querySelectorAll('tr')
 	
 	trList.forEach(tr => {
-		const friendId = tr.querySelector('input').value
-//		console.log(friendId);
+		const friendId = tr.querySelector('.friendId').value;
+		const roomType = tr.querySelector('.roomType').value;
+		const chatId = tr.querySelector('.chatId').value
+		console.log('friendId : ', friendId);
+		console.log('roomType : ', roomType);
+		console.log('chatId : ', chatId);
 		tr.addEventListener('dblclick', function(){
-			createNewChat(friendId);
+			if(roomType == "1") {
+				createNewChat(friendId,roomType);
+			}
+			if(roomType == "N") {
+				createNewGroupChat(chatId);
+			}
 		});
 	})
-	
 }
 
 
-function createNewChat(friendId){
+function createNewChat(friendId,roomType){
 	console.log(friendId);
-    
+    console.log(roomType);
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", "chatPopup.do");
@@ -37,8 +43,28 @@ function createNewChat(friendId){
     window.open('', 'popupWindow', 'width=400,height=600');
     form.submit();
     document.body.removeChild(form);
-
 }
+
+function createNewGroupChat(chatId){
+	var form = document.createElement("form");
+	form.setAttribute("method", "post");
+	form.setAttribute("action", "groupChatPopup.do");
+	form.setAttribute("target", "popupWindow");
+	
+	var input = document.createElement("input");
+	input.setAttribute("type", "hidden");
+	input.setAttribute("name", "chatId");
+	input.setAttribute("value", chatId);
+	
+	form.appendChild(input);
+	document.body.appendChild(form);
+	
+	window.open('', 'popupWindow', 'width=400,height=600');
+	form.submit();
+	document.body.removeChild(form);
+}
+
+
 
 
 function getMyFriList(){

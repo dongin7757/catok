@@ -1,6 +1,7 @@
 package com.chat.catok.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.chat.catok.model.IChatDao;
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
 import com.chat.catok.vo.ChatroomParticipateVo;
+import com.chat.catok.vo.MyChatRoomListVo;
 
 import lombok.extern.slf4j.Slf4j;
 @Service
@@ -52,7 +54,7 @@ public class ChatServiceImpl implements IChatService {
 	
 	// 나의 채팅방 리스트 가져오기
 	@Override
-	public List<ChatRoomListVo> getMyChatRoomList(String user_id) {
+	public List<MyChatRoomListVo> getMyChatRoomList(String user_id) {
 		log.info("#### 나의 아이디가 속한 채팅방 조회~ : {}", user_id);
 		return dao.getMyChatRoomList(user_id);
 	}

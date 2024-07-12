@@ -4,21 +4,37 @@
 
 	<!-- 친구와 내가 속한 1:1 채팅방이 존재하는지 확인 -->
 	<select id="getChatRoomChatId" parameterType="java.util.Map" resultType="java.lang.String">
-	SELECT CHAT_ID 
-		FROM KKATOK.CHATROOMPARTICIPATE 
-		WHERE USER_ID = #{my_id}
-	INTERSECT
+<!-- 	SELECT CHAT_ID  -->
+<!-- 		FROM KKATOK.CHATROOMPARTICIPATE  -->
+<!-- 		WHERE USER_ID = #{my_id} -->
+<!-- 	INTERSECT -->
+<!-- 		SELECT CHAT_ID  -->
+<!-- 		FROM KKATOK.CHATROOMPARTICIPATE  -->
+<!-- 		WHERE USER_ID = #{friend_id} -->
 		SELECT CHAT_ID 
-		FROM KKATOK.CHATROOMPARTICIPATE 
-		WHERE USER_ID = #{friend_id}
+				FROM KKATOK.CHATROOMPARTICIPATE 
+				WHERE USER_ID = #{my_id}
+			INTERSECT
+				SELECT cp.CHAT_ID 
+				FROM KKATOK.CHATROOMPARTICIPATE cp
+				INNER JOIN KKATOK.CHATROOM c
+				ON cp.CHAT_ID = c.CHAT_ID
+				WHERE cp.USER_ID = #{friend_id}
+				AND c.ROOM_TYPE = '1'
 	</select>
 	
 	<!-- 채팅방 조회시 존재하면 채팅방 정보 가져오기 -->
 	<select id="getChatInfo" parameterType="java.lang.String" resultType="ChatInfoVo">
-	SELECT USER_ID , CHAT_MESSAGE , TO_CHAR(CHAT_REGDATE, 'YYYY-MM-DD HH24:MI') AS CHAT_REGDATE
-		FROM KKATOK.CHATINFO c
-		WHERE CHAT_ID = #{chat_id}
-		ORDER BY CHAT_REGDATE
+<!-- 	SELECT USER_ID , CHAT_ID, CHAT_MESSAGE , TO_CHAR(CHAT_REGDATE, 'YYYY-MM-DD HH24:MI') AS CHAT_REGDATE -->
+<!-- 		FROM KKATOK.CHATINFO c -->
+<!-- 		WHERE CHAT_ID = #{chat_id} -->
+<!-- 		ORDER BY CHAT_REGDATE -->
+		SELECT ci.USER_ID, ci.CHAT_MESSAGE, cr.CHAT_TITLE, TO_CHAR(ci.CHAT_REGDATE, 'YYYY-MM-DD HH24:MI:SS') AS CHAT_REGDATE
+				FROM KKATOK.CHATINFO ci
+				INNER JOIN KKATOK.CHATROOM cr
+				ON ci.CHAT_ID = cr.CHAT_ID
+				WHERE ci.CHAT_ID = #{chat_id, jdbcType=VARCHAR}
+				ORDER BY CHAT_REGDATE
 	</select>
 	
 	<!-- 1:1 채팅방 생성 -->
@@ -48,21 +64,49 @@
   	
   	
   	<!-- 나의 채팅방 리스트 조회 -->
-	<select id="getMyChatRoomList" parameterType="java.lang.String" resultType="ChatRoomListVo">
-		SELECT *
-			FROM(
-				SELECT c.CHAT_ID, C2.USER_ID, c.CHAT_MESSAGE, C.CHAT_REGDATE  
-				FROM KKATOK.CHATINFO c INNER JOIN
-					(SELECT CHAT_ID ,USER_ID 
-						FROM KKATOK.CHATROOMPARTICIPATE c2  
-						WHERE CHAT_ID IN (SELECT CHAT_ID 
-								FROM KKATOK.CHATROOMPARTICIPATE c
-								WHERE USER_ID = #{user_id})
-						AND C2.USER_ID != #{user_id})C2
-					ON c2.CHAT_ID = c.CHAT_ID
-					ORDER BY CHAT_REGDATE DESC
-				)
-		WHERE ROWNUM = 1		
+	<select id="getMyChatRoomList" parameterType="java.lang.String" resultType="MyChatRoomListVo">
+<!-- 		SELECT * -->
+<!-- 			FROM( -->
+<!-- 				SELECT c.CHAT_ID, C2.USER_ID, c.CHAT_MESSAGE, C.CHAT_REGDATE   -->
+<!-- 				FROM KKATOK.CHATINFO c INNER JOIN -->
+<!-- 					(SELECT CHAT_ID ,USER_ID  -->
+<!-- 						FROM KKATOK.CHATROOMPARTICIPATE c2   -->
+<!-- 						WHERE CHAT_ID IN (SELECT CHAT_ID  -->
+<!-- 								FROM KKATOK.CHATROOMPARTICIPATE c -->
+<!-- 								WHERE USER_ID = #{user_id}) -->
+<!-- 						AND C2.USER_ID != #{user_id})C2 -->
+<!-- 					ON c2.CHAT_ID = c.CHAT_ID -->
+<!-- 					ORDER BY CHAT_REGDATE DESC -->
+<!-- 				) -->
+<!-- 		WHERE ROWNUM = 1		 -->
+			WITH LatestChat AS (
+			    SELECT CI.CHAT_ID, CI.ROOM_TYPE, CI.CHAT_TITLE, 
+			           CI.USER_ID, C.CHAT_MESSAGE, C.CHAT_REGDATE,
+			           ROW_NUMBER() OVER (PARTITION BY CI.CHAT_ID ORDER BY C.CHAT_REGDATE DESC) AS rn
+			    FROM KKATOK.CHATINFO C 
+			    RIGHT JOIN (
+			        SELECT MIN(RI.CHAT_ID) AS CHAT_ID, MIN(RI.ROOM_TYPE) AS ROOM_TYPE, MIN(RI.CHAT_TITLE) AS CHAT_TITLE,
+			               MIN(C.USER_ID) AS USER_ID 
+			        FROM KKATOK.CHATROOMPARTICIPATE C
+			        INNER JOIN (
+			            SELECT C.CHAT_ID, ROOM_TYPE, CHAT_TITLE 
+			            FROM KKATOK.CHATROOM C 
+			            WHERE C.CHAT_ID IN (
+			                SELECT CHAT_ID 
+			                FROM KKATOK.CHATROOMPARTICIPATE 
+			                WHERE USER_ID = #{user_id}
+			            )
+			        ) RI
+			        ON RI.CHAT_ID = C.CHAT_ID
+			        WHERE USER_ID != #{user_id}
+			        GROUP BY RI.CHAT_ID
+			    ) CI
+			    ON CI.CHAT_ID = C.CHAT_ID 
+			)
+			SELECT CHAT_ID, ROOM_TYPE, CHAT_TITLE, USER_ID, CHAT_MESSAGE, CHAT_REGDATE
+			FROM LatestChat
+			WHERE rn = 1
+			ORDER BY CHAT_REGDATE DESC
 	</select>
 	
 	<!-- 채팅내용 저장 -->

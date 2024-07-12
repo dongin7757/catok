@@ -1,12 +1,13 @@
 package com.chat.catok.service;
 
 import java.util.List;
+
 import java.util.Map;
 
 import com.chat.catok.vo.ChatInfoVo;
 import com.chat.catok.vo.ChatRoomListVo;
 import com.chat.catok.vo.ChatroomParticipateVo;
-import com.chat.catok.vo.ChatroomVo;
+import com.chat.catok.vo.MyChatRoomListVo;
 
 public interface IChatService {
 
@@ -23,7 +24,7 @@ public interface IChatService {
 //	public int createChatRoomInfo(String user_id);
 	
 	//나의 채팅방 리스트 가져오기
-	public List<ChatRoomListVo> getMyChatRoomList(String user_id);
+	public List<MyChatRoomListVo> getMyChatRoomList(String user_id);
 	
 	// 채팅내용 저장
 	public int insertChatMessage(Map<String, Object> map);
