@@ -75,6 +75,12 @@ public class ChatDaoImpl implements IChatDao {
 	public ChatroomParticipateVo checkMyGroupRoom(ChatroomParticipateVo vo) {
 		return sqlSession.selectOne(NS+"checkMyGroupRoom", vo);
 	}
+
+	// 그룹 채팅방 제목 가져오기
+	@Override
+	public String getGroupChatTitle(String chat_id) {
+		return sqlSession.selectOne(NS+"getGroupChatTitle",chat_id);
+	}
 	
 	
 	

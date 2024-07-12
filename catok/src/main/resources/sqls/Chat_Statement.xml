@@ -33,7 +33,7 @@
 				FROM KKATOK.CHATINFO ci
 				INNER JOIN KKATOK.CHATROOM cr
 				ON ci.CHAT_ID = cr.CHAT_ID
-				WHERE ci.CHAT_ID = #{chat_id, jdbcType=VARCHAR}
+				WHERE ci.CHAT_ID = #{chat_id}
 				ORDER BY CHAT_REGDATE
 	</select>
 	
@@ -128,5 +128,14 @@
 			FROM KKATOK.CHATROOMPARTICIPATE c 
 			WHERE CHAT_ID = #{chat_id} AND USER_ID = #{user_id} 
 	</select>
+	
+	
+	<!-- 그룹 채팅방 제목 가져오기 -->
+	<select id="getGroupChatTitle" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT CHAT_TITLE 
+			FROM KKATOK.CHATROOM c 
+			WHERE CHAT_ID = #{chat_id}
+	</select>
+	
 	
 </mapper>

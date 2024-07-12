@@ -139,7 +139,7 @@ public class ChatController {
 				String encodedId = EncryptionUtil.encode(groupChatroomId);
 				String chatTitle = EncryptionUtil.encode(chat_title);
 				log.info("#$#$#$#$ 인코딩된 채팅방 넘버 : {}", encodedId);
-				return "./groupChatPopup.do?groupChatroomId=" + encodedId + "&chatTitle=" + chatTitle;
+				return "./groupChatPopup.do?groupChatroomId=" + encodedId;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "error/errorPg";
@@ -149,23 +149,30 @@ public class ChatController {
 	}
 	
 	@GetMapping("/groupChatPopup.do") 
-	public String groupChatPopup(@AuthenticationPrincipal UserDetails userDetail, @RequestParam("groupChatroomId") String groupChatroomId, @RequestParam("chatTitle") String chatTitle,  Model model) {
+	public String groupChatPopup(@AuthenticationPrincipal UserDetails userDetail, @RequestParam("groupChatroomId") String groupChatroomId, /*@RequestParam("chatTitle") String chatTitle,*/  Model model) {
 		String myId = userDetail.getUsername();
 		if(groupChatroomId != null) {
 		try {
 			String decodeId = EncryptionUtil.decode(groupChatroomId);
-			String decodeTitle = EncryptionUtil.decode(chatTitle);
+//			String decodeTitle = EncryptionUtil.decode(chatTitle);
 			log.info("#######디코딩 된 채팅방 번호 : {} ",decodeId);
 			ChatroomParticipateVo vo = new ChatroomParticipateVo();
 			vo.setChat_id(decodeId);
 			vo.setUser_id(myId);
 //			vo.setUser_regdate("");
+			//내가 해당 채팅방에 포함되어있는지 검사.
 			if(chatService.checkMyGroupRoom(vo) != null) {
 				model.addAttribute("myId", myId);
 				model.addAttribute("groupChatroomId", decodeId);
 				List<ChatInfoVo> chattings =  chatService.getChatInfo(decodeId);
+				
+//				String chat_title = chattings.get(0).getChat_title();
+//				if(chat_title.equals(null) || chat_title.equals("")) {
+					String chat_title = chatService.getGroupChatTitle(decodeId);
+					log.info("조회한 제목 : " + chat_title);
+//				}
 				model.addAttribute("chattings", chattings);
-				model.addAttribute("chat_title", decodeTitle);
+				model.addAttribute("chat_title", chat_title);
 				log.info("####decodeTitle");
 			}else {
 				return "error/errorPg";
@@ -186,18 +193,13 @@ public class ChatController {
 		log.info("####subChatId : " + chatId);
 		if(chatId != null) {
 		try {
-			ChatroomParticipateVo vo = new ChatroomParticipateVo();
-			vo.setUser_id(myId);
-			log.info("####vo : " + vo);
 			model.addAttribute("myId", myId);
 			model.addAttribute("groupChatroomId", chatId);
 			List<ChatInfoVo> chattings =  chatService.getChatInfo(chatId);
-			String chatTitle = "";
-			for(ChatInfoVo chat : chattings) {
-				chatTitle = chat.getChat_title();
-				log.info(chatTitle);
-				model.addAttribute("chat_title", chatTitle);
-			}
+			
+			String chat_title = chatService.getGroupChatTitle(chatId);
+			log.info("조회한 제목 : " + chat_title);
+			model.addAttribute("chat_title", chat_title);
 			model.addAttribute("chattings", chattings);
 		} catch (Exception e) {
 			e.printStackTrace();
