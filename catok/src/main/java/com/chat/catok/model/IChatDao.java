@@ -40,4 +40,7 @@ public interface IChatDao {
 	
 	//	그룹 채팅방에 속해있는지 확인용
 	public ChatroomParticipateVo checkMyGroupRoom (ChatroomParticipateVo vo);
+	
+	// 그룹 채팅방 제목 가져오기
+	public String getGroupChatTitle(String chat_id);
 }

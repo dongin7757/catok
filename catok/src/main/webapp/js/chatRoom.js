@@ -14,17 +14,18 @@ window.onload = function(){
 		console.log('chatId : ', chatId);
 		tr.addEventListener('dblclick', function(){
 			if(roomType == "1") {
-				createNewChat(friendId,roomType);
+				getOneChat(friendId);
 			}
 			if(roomType == "N") {
-				createNewGroupChat(chatId);
+				getGroupChat(chatId);
 			}
 		});
 	})
 }
 
 
-function createNewChat(friendId,roomType){
+//1:1채팅일 경우 가져오기.
+function getOneChat(friendId){
 	console.log(friendId);
     console.log(roomType);
     var form = document.createElement("form");
@@ -45,7 +46,9 @@ function createNewChat(friendId,roomType){
     document.body.removeChild(form);
 }
 
-function createNewGroupChat(chatId){
+
+//1:n 채팅 가져오기
+function getGroupChat(chatId){
 	var form = document.createElement("form");
 	form.setAttribute("method", "post");
 	form.setAttribute("action", "groupChatPopup.do");

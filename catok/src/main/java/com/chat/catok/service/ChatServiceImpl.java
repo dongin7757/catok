@@ -87,6 +87,13 @@ public class ChatServiceImpl implements IChatService {
 		log.info("##### 서비스영역 그룹 채팅방 조회 정보 : {}", vo);
 		return dao.checkMyGroupRoom(vo);
 	}
+
+	//그룹 채팅방 제목 가져오기
+	@Override
+	public String getGroupChatTitle(String chat_id) {
+		log.info("####$##$ 제목 가져올 채팅방 번호~ {}",chat_id);
+		return dao.getGroupChatTitle(chat_id);
+	}
 	
 	
 }
